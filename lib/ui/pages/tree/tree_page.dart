@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
 /// * @Author: chuxiong
-/// * @Created at: 2020/12/1 11:20
+/// * @Created at: 2020/12/19 6:54 PM
 /// * @Email: 
 /// * @Company: 嘉联支付
 /// * description
-class MainScreen extends StatelessWidget {
-  static const String routeName = '/';
+class TreePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-
-      child: Text('mainScreen'),
+      child: Text('TreePage'),
     );
   }
 }

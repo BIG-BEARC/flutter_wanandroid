@@ -1,9 +1,10 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid/core/model/base_entity.dart';
 import 'package:flutter_wanandroid/core/model/base_list_entity.dart';
-import 'package:flutter_wanandroid/core/model/entity_factory.dart';
 import 'package:flutter_wanandroid/core/model/error_entity.dart';
 import 'package:flutter_wanandroid/core/services/api.dart';
 import 'package:flutter_wanandroid/core/services/http_config.dart';
@@ -49,15 +50,21 @@ class DioManager {
         ..headers = {
           "version": HttpConfig.version,
         };
-
+      //Cookie管理
       _dio = Dio(options);
+      var cookieJar=CookieJar();
+      _dio.interceptors.add(CookieManager(cookieJar));
+      //拦截器
+      _dio.interceptors.add(LogInterceptor(requestBody: true,responseBody: true));
+
+
     }
   }
 
   ///不同请求方法，不同的请求参数。按实际项目需求分，这里 get 是 queryParameters，其它用 data. FormData 也是 data
   /// 注意: 只有 post 方法支持发送 FormData.
   // 请求，返回参数为 T
-  // method：请求方法，NWMethod.POST等
+  // method：请求方法，HttpMethod.POST等
   // path：请求地址
   // queryParameters：get 请求参数
   // data：post 请求参数
@@ -105,7 +112,7 @@ class DioManager {
   }
 
   // 请求，返回参数为 List<T>
-  // method：请求方法，NWMethod.POST等
+  // method：请求方法，HttpMethod.POST等
   // path：请求地址
   // queryParameters：get 请求参数
   // data：post 请求参数

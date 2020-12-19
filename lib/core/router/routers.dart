@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid/ui/pages/main/main_screen.dart';
+import 'package:flutter_wanandroid/ui/pages/main/main_page.dart';
 import 'package:flutter_wanandroid/ui/pages/state/unknow_screen.dart';
 
 /// * @Author: chuxiong
@@ -8,7 +8,7 @@ import 'package:flutter_wanandroid/ui/pages/state/unknow_screen.dart';
 /// * @Company: 嘉联支付
 /// * description
 class Routers {
-  static final String initialRoute = MainScreen.routeName;
+  static final String initialRoute = MainPage.routeName;
 
   static RouteFactory unKnownRoute = (setting) {
     return MaterialPageRoute(builder: (ctx) {
@@ -28,7 +28,7 @@ class Routers {
   };
 
   static final Map<String, WidgetBuilder> routes = {
-    MainScreen.routeName: (ctx) => MainScreen(),
+    MainPage.routeName: (ctx) => MainPage(),
 
   };
 }
