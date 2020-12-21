@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wan Android',
       theme: ThemeData(
-          primaryColor: YColors.themeColor[2]["primaryColor"],
-          primaryColorDark: YColors.themeColor[2]["primaryColorDark"],
-          accentColor: YColors.themeColor[2]["colorAccent"]
+          primaryColor:Color(0xff2196F3),
+          primaryColorDark:  Color(0xff1976D2),
+          accentColor: Color(0xff448AFF),
       ),
       initialRoute: Routers.initialRoute,
       routes: Routers.routes,

@@ -34,9 +34,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_wanandroid/core/extension/int_extension.dart';
 import 'package:flutter_wanandroid/core/extension/double_extension.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String text;
   final TextStyle style;
+
+  ///是否展示back键
+  final bool canBack;
+  final onTap;
   final Widget leading;
   final Widget title;
   final bool automaticallyImplyLeading;
@@ -45,7 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final Color shadowColor;
   final ShapeBorder shape;
-  final Color backgroundColor;
+  Color backgroundColor;
   final Brightness brightness;
   final IconThemeData iconTheme;
   final IconThemeData actionsIconTheme;
@@ -65,6 +69,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar(
     this.text, {
     this.style,
+    this.canBack = true,
+    this.onTap,
     // 下面是系统appbar需要的属性
     Key key,
     this.leading,
@@ -75,7 +81,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation,
     this.shadowColor,
     this.shape,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor ,
     this.brightness = Brightness.light,
     this.iconTheme,
     this.actionsIconTheme,
@@ -92,41 +98,48 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }) : preferredSize = Size.fromHeight(toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
 
   @override
+  _CustomAppBarState createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  @override
   Widget build(BuildContext context) {
+
     return AppBar(
-      leading: IconButton(
-        icon: Image.asset("assets/images/register_back.png"),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      automaticallyImplyLeading: automaticallyImplyLeading ?? true,
-      title: title ??
+      leading: widget.canBack ?
+          IconButton(
+            icon: Image.asset("assets/images/register_back.png"),
+            onPressed: widget.onTap??() => Navigator.of(context).pop(),
+          ):widget.leading,
+      automaticallyImplyLeading: widget.automaticallyImplyLeading ?? true,
+      title: widget.title ??
           Text(
-            text ?? "",
-            style: style ??
+            widget.text ?? "",
+            style: widget.style ??
                 TextStyle(
                   fontSize: 18.px,
                   color: Color(0XFF333333),
                 ),
           ),
-      actions: actions,
-      flexibleSpace: flexibleSpace,
-      elevation: elevation ?? 0.5.px,
-      shadowColor: shadowColor,
-      shape: shape,
-      backgroundColor: backgroundColor ?? Colors.white,
-      brightness: brightness ?? Brightness.light,
-      iconTheme: iconTheme,
-      actionsIconTheme: actionsIconTheme,
-      textTheme: textTheme,
-      primary: primary ?? true,
-      centerTitle: centerTitle ?? true,
-      excludeHeaderSemantics: excludeHeaderSemantics ?? false,
-      titleSpacing: titleSpacing ?? NavigationToolbar.kMiddleSpacing,
-      toolbarOpacity: toolbarOpacity ?? 1.0,
-      bottomOpacity: bottomOpacity ?? 1.0,
-      toolbarHeight: toolbarHeight,
-      leadingWidth: leadingWidth,
-      bottom: bottom,
+      actions: widget.actions,
+      flexibleSpace: widget.flexibleSpace,
+      elevation: widget.elevation ?? 0.5.px,
+      shadowColor: widget.shadowColor,
+      shape: widget.shape,
+      backgroundColor: widget.backgroundColor ?? Theme.of(context).primaryColor,
+      brightness: widget.brightness ?? Brightness.light,
+      iconTheme: widget.iconTheme,
+      actionsIconTheme: widget.actionsIconTheme,
+      textTheme: widget.textTheme,
+      primary: widget.primary ?? true,
+      centerTitle: widget.centerTitle ?? true,
+      excludeHeaderSemantics: widget.excludeHeaderSemantics ?? false,
+      titleSpacing: widget.titleSpacing ?? NavigationToolbar.kMiddleSpacing,
+      toolbarOpacity: widget.toolbarOpacity ?? 1.0,
+      bottomOpacity: widget.bottomOpacity ?? 1.0,
+      toolbarHeight: widget.toolbarHeight,
+      leadingWidth: widget.leadingWidth,
+      bottom: widget.bottom,
     );
   }
 }
