@@ -14,7 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 /// * @Company: 嘉联支付
 /// * description
 class MainPage extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/MainPage';
 
   @override
   _MainPageState createState() => _MainPageState();
