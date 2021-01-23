@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid/core/model/entity_factory.dart';
+import 'package:flutter_wanandroid/core/model/base/entity_factory.dart';
 
 /// * @Author: chuxiong
 /// * @Created at: 2020/12/8 2:43 PM
@@ -17,13 +16,13 @@ class BaseListEntity<T> {
     List<T> mData = List();
     if (json['data'] != null) {
       (json['data'] as List).forEach((element) {
-        mData.add(EntityFactory.generateOBJ(json));
+        mData.add(EntityFactory.generateOBJ(element));
       });
     }
 
     return BaseListEntity(
-      code: json['code'],
-      message: json['message'],
+      code: json['errorCode'],
+      message: json['errorMsg'],
       data: mData,
     );
   }

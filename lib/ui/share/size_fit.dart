@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-class HYSizeFit {
+class CXSizeFit {
   // 1.基本信息
   static double physicalWidth;
   static double physicalHeight;

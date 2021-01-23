@@ -3,10 +3,10 @@ import 'package:flutter_wanandroid/ui/share/size_fit.dart';
 
 extension IntFit on int {
   double get px {
-    return HYSizeFit.setPx(this.toDouble());
+    return CXSizeFit.setPx(this.toDouble());
   }
 
   double get rpx {
-    return HYSizeFit.setRpx(this.toDouble());
+    return CXSizeFit.setRpx(this.toDouble());
   }
 }

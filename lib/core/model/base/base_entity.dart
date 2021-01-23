@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid/core/model/entity_factory.dart';
+import 'package:flutter_wanandroid/core/model/base/entity_factory.dart';
 
 /// * @Author: chuxiong
 /// * @Created at: 2020/12/8 2:39 PM
@@ -15,9 +14,9 @@ class BaseEntity<T> {
 
   factory BaseEntity.fromJson(json) {
     return BaseEntity(
-        code: json['code'],
-        message: json['message'],
+        code: json['errorCode'],
+        message: json['errorMsg'],
         // data值需要经过工厂转换为我们传进来的类型
-        data: EntityFactory.generateOBJ(json));
+        data: EntityFactory.generateOBJ(json['data']));
   }
 }

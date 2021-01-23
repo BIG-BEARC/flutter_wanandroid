@@ -1,12 +1,9 @@
-/// * @Author: chuxiong
-/// * @Created at: 2020/12/19
-/// * @Email:
-/// * @Company: 嘉联支付
-/// * description:
-///
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_wanandroid/core/extension/int_extension.dart';
+import 'package:flutter_wanandroid/core/extension/double_extension.dart';
 /*  导入文件:
-  
+
   基本使用方法:
   * 1. 如果使用默认的标题,传入text即可
   * CustomAppBar( "消息详情"),
@@ -29,12 +26,7 @@
       ),
  */
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_wanandroid/core/extension/int_extension.dart';
-import 'package:flutter_wanandroid/core/extension/double_extension.dart';
-
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+class CXAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String text;
   final TextStyle style;
 
@@ -49,7 +41,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double elevation;
   final Color shadowColor;
   final ShapeBorder shape;
-  Color backgroundColor;
+  final Color backgroundColor;
   final Brightness brightness;
   final IconThemeData iconTheme;
   final IconThemeData actionsIconTheme;
@@ -66,7 +58,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Size preferredSize;
   final PreferredSizeWidget bottom;
 
-  CustomAppBar(
+  CXAppBar(
     this.text, {
     this.style,
     this.canBack = true,
@@ -98,10 +90,10 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   }) : preferredSize = Size.fromHeight(toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
+  _CXAppBarState createState() => _CXAppBarState();
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _CXAppBarState extends State<CXAppBar> {
   @override
   Widget build(BuildContext context) {
 

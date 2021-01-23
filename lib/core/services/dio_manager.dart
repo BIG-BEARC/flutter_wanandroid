@@ -3,11 +3,12 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanandroid/core/model/base_entity.dart';
-import 'package:flutter_wanandroid/core/model/base_list_entity.dart';
-import 'package:flutter_wanandroid/core/model/error_entity.dart';
+import 'package:flutter_wanandroid/core/model/base/base_entity.dart';
+import 'package:flutter_wanandroid/core/model/base/base_list_entity.dart';
+import 'package:flutter_wanandroid/core/model/base/error_entity.dart';
 import 'package:flutter_wanandroid/core/services/api.dart';
 import 'package:flutter_wanandroid/core/services/http_config.dart';
+import 'package:flutter_wanandroid/ui/share/global_config.dart';
 
 /// * @Author: chuxiong
 /// * @Created at: 2020/12/8 2:59 PM
@@ -19,6 +20,7 @@ typedef Success<T> = Function(T data);
 typedef Fail<ErrorEntity> = Function(ErrorEntity errorEntity);
 
 class DioManager {
+  CancelToken cancelToken = CancelToken();
   static final DioManager _instance = DioManager._internal();
 
   factory DioManager() => _instance;
@@ -45,19 +47,17 @@ class DioManager {
         ..receiveDataWhenStatusError = false
         ..responseType = ResponseType.json
 
-      ///设置接收类型
+        ///设置接收类型
         ..contentType = Headers.jsonContentType
         ..headers = {
           "version": HttpConfig.version,
         };
       //Cookie管理
       _dio = Dio(options);
-      var cookieJar=CookieJar();
+      var cookieJar = CookieJar();
       _dio.interceptors.add(CookieManager(cookieJar));
       //拦截器
-      _dio.interceptors.add(LogInterceptor(requestBody: true,responseBody: true));
-
-
+      _dio.interceptors.add(LogInterceptor(requestBody: true, requestHeader: GlobalConfig.isRelease, responseHeader: GlobalConfig.isRelease, responseBody: true));
     }
   }
 
@@ -70,15 +70,15 @@ class DioManager {
   // data：post 请求参数
   // success：请求成功回调
   // error：请求失败回调
-  Future request<T>({
-    @required HttpMethod method,
-    @required String path,
-    Map<String, dynamic> data,
-    Map<String, dynamic> queryParameters,
-    Function(T) success,
-    Function(ErrorEntity) error,
-    Function() complete
-  }) async {
+  Future request<T>(
+      {@required HttpMethod method,
+      @required String path,
+      Map<String, dynamic> data,
+      Map<String, dynamic> queryParameters,
+      CancelToken cancelToken,
+      Function(T) success,
+      Function(ErrorEntity) error,
+      Function() complete}) async {
     //检查网络是否连接
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -87,7 +87,9 @@ class DioManager {
       return Future.error(ErrorEntity(code: -200, message: "网络已断开！"));
     }
     try {
-      _dio.request(path, data: data, queryParameters: queryParameters, options: Options(method: HttpMethodValues[method])).then((response) {
+      _dio
+          .request(path, data: data, queryParameters: queryParameters, options: Options(method: HttpMethodValues[method]), cancelToken: cancelToken ?? this.cancelToken)
+          .then((response) {
         print(response.data);
         if (response != null) {
           BaseEntity entity = BaseEntity<T>.fromJson(response.data);
@@ -118,15 +120,15 @@ class DioManager {
   // data：post 请求参数
   // success：请求成功回调
   // error：请求失败回调
-  Future requestList<T>({
-    @required HttpMethod method,
-    @required String path,
-    Map<String, dynamic> queryParameters,
-    Map<String, dynamic> data,
-    Function(List<T>) success,
-    Function(ErrorEntity) error,
-    Function() complete
-  }) async {
+  Future requestList<T>(
+      {@required HttpMethod method,
+      @required String path,
+      Map<String, dynamic> queryParameters,
+      Map<String, dynamic> data,
+      CancelToken cancelToken,
+      Function(List<T>) success,
+      Function(ErrorEntity) error,
+      Function() complete}) async {
     try {
       //检查网络是否连接
       ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
@@ -136,7 +138,9 @@ class DioManager {
         error(errorEntity);
         return Future.error(errorEntity);
       }
-      _dio.request(path, data: data, queryParameters: queryParameters, options: Options(method: HttpMethodValues[method])).then((response) {
+      _dio
+          .request(path, data: data, queryParameters: queryParameters, options: Options(method: HttpMethodValues[method]), cancelToken: cancelToken ?? this.cancelToken)
+          .then((response) {
         print(response.data);
         if (response != null) {
           BaseListEntity entity = BaseListEntity<T>.fromJson(response.data);
@@ -159,6 +163,24 @@ class DioManager {
     }
   }
 
+  /*
+   * 取消请求
+   *
+   * 同一个cancel token 可以用于多个请求，当一个cancel token取消时，所有使用该cancel token的请求都会被取消。
+   * 所以参数可选
+   */
+  void cancelRequests(CancelToken token) {
+    if (token != null && !token.isCancelled) {
+      token.cancel("cancelled");
+    }
+  }
+
+  void cancelRequestsWithRelease(CancelToken token) {
+    if (token != null && !token.isCancelled) {
+      token.cancel("cancelled");
+      token = null;
+    }
+  }
 
   // 错误信息
   ErrorEntity createErrorEntity(DioError error) {
@@ -201,17 +223,8 @@ class DioManager {
     }
   }
 }
-//使用：HttpMethodValues[HttpMethod.POST]
-const HttpMethodValues = {
-  HttpMethod.GET: "get",
-  HttpMethod.POST: "post",
-  HttpMethod.DELETE: "delete",
-  HttpMethod.PUT: "put"
-};
 
-enum HttpMethod {
-  GET,
-  POST,
-  DELETE,
-  PUT
-}
+//使用：HttpMethodValues[HttpMethod.POST]
+const HttpMethodValues = {HttpMethod.GET: "get", HttpMethod.POST: "post", HttpMethod.DELETE: "delete", HttpMethod.PUT: "put"};
+
+enum HttpMethod { GET, POST, DELETE, PUT }

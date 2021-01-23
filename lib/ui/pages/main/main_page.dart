@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid/core/extension/int_extension.dart';
-import 'package:flutter_wanandroid/ui/pages/home/home_page.dart';
-import 'package:flutter_wanandroid/ui/pages/navi/navi_page.dart';
-import 'package:flutter_wanandroid/ui/pages/project/project_page.dart';
-import 'package:flutter_wanandroid/ui/pages/tree/tree_page.dart';
 import 'package:flutter_wanandroid/ui/share/constant_and_string.dart';
-import 'package:flutter_wanandroid/ui/wideget/custom_appbar.dart';
+import 'package:flutter_wanandroid/ui/wideget/cx_appbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'init_item.dart';
 
 /// * @Author: chuxiong
 /// * @Created at: 2020/12/1 11:20
@@ -24,12 +22,7 @@ class _MainPageState extends State<MainPage> {
   String title;
   int _selectedIndex = 0;
   PageController _pageController;
-  var pages = <Widget>[
-    HomePage(),
-    TreePage(),
-    NaviPage(),
-    ProjectPage(),
-  ];
+
 
   @override
   void initState() {
@@ -47,7 +40,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: CXAppBar(
         title,
         canBack: false,
         leading: IconButton(
@@ -78,12 +71,7 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: CString.home),
-          BottomNavigationBarItem(icon: Icon(Icons.filter_list), label: CString.tree),
-          BottomNavigationBarItem(icon: Icon(Icons.low_priority), label: CString.navi),
-          BottomNavigationBarItem(icon: Icon(Icons.apps), label: CString.project),
-        ],
+        items: bottomBarItems,
         //选中颜色
         fixedColor: Theme.of(context).primaryColor,
         //显示模式
@@ -94,32 +82,31 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onTap(index) {
-        _selectedIndex = index;
-        //bottomNavigationBar 和 PageView 关联
-        _pageController.animateToPage(index,
-            duration: Duration(milliseconds: 300), curve: Curves.ease);
-        setState(() {});
-      }
+    _selectedIndex = index;
+    //bottomNavigationBar 和 PageView 关联
+    _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+    setState(() {});
+  }
 
   _onPageChange(int index) {
-    _selectedIndex =index;
-        switch (index) {
-                case 0:
-                title =  CString.appName;
-                  break;
-                case 1:
-                  title =  CString.tree;
-                  break;
-                case 2:
-                  title =  CString.navi;
-                  break;
-                case 3:
-                  title =  CString.project;
-                  break;
-                default:
-                  title =  CString.appName;
-                  break;
-              }
+    _selectedIndex = index;
+    switch (index) {
+      case 0:
+        title = CString.appName;
+        break;
+      case 1:
+        title = CString.tree;
+        break;
+      case 2:
+        title = CString.navi;
+        break;
+      case 3:
+        title = CString.project;
+        break;
+      default:
+        title = CString.appName;
+        break;
+    }
     setState(() {});
   }
 }

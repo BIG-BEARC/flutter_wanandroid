@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_wanandroid/ui/share/global_config.dart';
 
 import 'core/router/routers.dart';
-import 'ui/share/colors.dart';
 
 void main() {
   //runApp前调用，初始化绑定，手势、渲染、服务等
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xff448AFF),
       ),
       initialRoute: Routers.initialRoute,
-      routes: Routers.routes,
+      // routes: Routers.routes,
       onGenerateRoute: Routers.generateRoute,
       onUnknownRoute: Routers.unKnownRoute,
     );
