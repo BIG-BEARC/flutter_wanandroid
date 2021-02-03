@@ -1,4 +1,4 @@
-import 'package:flutter_wanandroid/core/model/base/error_entity.dart';
+import 'package:flutter_wanandroid/core/model/error_entity.dart';
 import 'package:flutter_wanandroid/core/model/home_banner_entity.dart';
 import 'package:flutter_wanandroid/core/model/home_entity.dart';
 import 'package:flutter_wanandroid/core/services/api.dart';

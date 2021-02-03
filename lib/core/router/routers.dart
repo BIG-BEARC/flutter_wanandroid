@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid/ui/pages/main/main_page.dart';
 import 'package:flutter_wanandroid/ui/pages/state/unknow_screen.dart';
+import 'package:flutter_wanandroid/ui/pages/web_page.dart';
 
 /// * @Author: chuxiong
 /// * @Created at: 2020/12/1 11:15
@@ -34,5 +35,6 @@ class Routers {
 
   static final Map<String, WidgetBuilder> routes = {
     MainPage.routeName: (ctx) => MainPage(),
+    WebPage.routeName: (ctx,{argument}) => WebPage(),
   };
 }

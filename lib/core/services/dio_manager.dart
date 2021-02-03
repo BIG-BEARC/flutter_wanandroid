@@ -5,7 +5,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wanandroid/core/model/base/base_entity.dart';
 import 'package:flutter_wanandroid/core/model/base/base_list_entity.dart';
-import 'package:flutter_wanandroid/core/model/base/error_entity.dart';
+import 'package:flutter_wanandroid/core/model/error_entity.dart';
 import 'package:flutter_wanandroid/core/services/api.dart';
 import 'package:flutter_wanandroid/core/services/http_config.dart';
 import 'package:flutter_wanandroid/ui/share/global_config.dart';

@@ -14,6 +14,7 @@ class ProjectPage extends StatefulWidget {
 class _ProjectPageState extends BaseState<ProjectPage> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       child: Text('ProjectPage'),
     );

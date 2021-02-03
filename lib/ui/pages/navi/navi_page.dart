@@ -14,6 +14,7 @@ class NaviPage extends StatefulWidget {
 class _NaviPageState extends BaseState<NaviPage> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       child: Text('NaviPage'),
     );
